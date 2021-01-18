@@ -26,7 +26,6 @@ const MainPage = () => {
                 )
         }, []);
 
-        debugger;
 
         if (state.LoadingStatus === LoadingStatus.NEVER) {
             return null
@@ -37,10 +36,12 @@ const MainPage = () => {
         }
 
         const movieElems = state.movies.results.map((movie) => {
-            return <div>
-                <div>{movie.title}</div>
+            return <div style={{display: 'flex', marginBottom: 24, borderBottom: '1px solid black'}} key={movie.id}>
                 <img src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} alt=""/>
-                <div>В избранном: нет</div>
+                <div style={{display: 'flex', flexDirection: 'column', marginLeft: 16, textAlign: "left"}}>
+                    <div>{movie.title}</div>
+                    <div>В избранном: нет</div>
+                </div>
             </div>
         })
 
