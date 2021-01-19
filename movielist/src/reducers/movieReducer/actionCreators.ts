@@ -1,14 +1,20 @@
 import {GenreInterface, MovieStateInterface} from "./movieReducer";
 import {
+    AddMoviesActionInterface,
     MoviesActionTypes,
     SetGenresActionInterface,
     SetMoviesActionInterface,
-    SetMoviesLoadingStatusActionInterface
+    SetMoviesLoadingStatusActionInterface, SetPageActionInterface
 } from "./actionTypes";
-import {LoadingStatus} from "../types";
+import {LoadingStatus} from "../../types";
 
 export const setMovies = (payload: MovieStateInterface): SetMoviesActionInterface => ({
     type: MoviesActionTypes.SET_MOVIES,
+    payload
+})
+
+export const addMovies = (payload: MovieStateInterface): AddMoviesActionInterface => ({
+    type: MoviesActionTypes.ADD_MOVIES,
     payload
 })
 
@@ -19,5 +25,10 @@ export const setGenres = (payload: GenreInterface[]): SetGenresActionInterface =
 
 export const setLoadingStatus = (payload: LoadingStatus): SetMoviesLoadingStatusActionInterface => ({
     type: MoviesActionTypes.SET_LOADING_STATE,
+    payload
+})
+
+export const setPage = (payload: number): SetPageActionInterface => ({
+    type: MoviesActionTypes.SET_PAGE,
     payload
 })

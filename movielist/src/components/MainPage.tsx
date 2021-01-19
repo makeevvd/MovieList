@@ -1,30 +1,19 @@
 import {Reducer, useEffect, useReducer} from "react";
 import moviesAPI from "../api/moviesAPI";
-import movieReducer, {initialState, State} from "../reducer/movieReducer";
-import {setGenres, setLoadingStatus, setMovies} from "../reducer/actionCreators";
+import movieReducer, {initialState, State} from "../reducers/movieReducer/movieReducer";
+import {setGenres, setLoadingStatus, setMovies} from "../reducers/movieReducer/actionCreators";
 import {LoadingStatus} from "../types";
-import {MovieActions} from "../reducer/actionTypes";
+import {MovieActions} from "../reducers/movieReducer/actionTypes";
+import React from "react";
+
+interface MainPageProps {
+    state: State
+}
 
 
 
-const MainPage = () => {
-        const [state, dispatch] = useReducer<Reducer<State, MovieActions>>(movieReducer, initialState);
-        useEffect(() => {
-            dispatch(setLoadingStatus(LoadingStatus.LOADING))
-            Promise.all([
-                moviesAPI.getMovies(''),
-                moviesAPI.getGenres()])
-            .then((results) => {
-                const {0: movies, 1: genres} = results
-                dispatch(setMovies(movies));
-                dispatch(setGenres(genres));
-                dispatch(setLoadingStatus(LoadingStatus.LOADED))
-            })
-                .catch(() => {
-                    dispatch(setLoadingStatus(LoadingStatus.ERROR))
-                    }
-                )
-        }, []);
+const MainPage: React.FC<MainPageProps> = ({ state }) => {
+
 
 
         if (state.LoadingStatus === LoadingStatus.NEVER) {
@@ -37,7 +26,7 @@ const MainPage = () => {
 
         const movieElems = state.movies.results.map((movie) => {
             return <div style={{display: 'flex', marginBottom: 24, borderBottom: '1px solid black'}} key={movie.id}>
-                <img src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} alt=""/>
+                <img src={movie.poster_path ? `https://image.tmdb.org/t/p/w200/${movie.poster_path}` : 'https://source.unsplash.com/random/200x300'} alt=""/>
                 <div style={{display: 'flex', flexDirection: 'column', marginLeft: 16, textAlign: "left"}}>
                     <div>{movie.title}</div>
                     <div>В избранном: нет</div>

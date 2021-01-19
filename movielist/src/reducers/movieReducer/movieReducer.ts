@@ -1,4 +1,4 @@
-import {LoadingStatus} from "../types";
+import {LoadingStatus} from "../../types";
 import {MovieActions, MoviesActionTypes} from "./actionTypes";
 
 // page: 1
@@ -24,7 +24,7 @@ import {MovieActions, MoviesActionTypes} from "./actionTypes";
 export interface MovieInterface {
     adult: boolean
     backdrop_path: string
-    genre_ids: number[]
+    with_genres: number[]
     id: number
     original_language: string
     original_title: string
@@ -57,7 +57,13 @@ export interface State {
 }
 
 export const initialState = {
-    movies: {} as MovieStateInterface,
+    // movies: {} as MovieStateInterface,
+    movies: {
+        page: 1,
+        results: [] as MovieInterface[],
+        total_pages: 500,
+        total_results: 10000
+    } ,
     genres: [],
     LoadingStatus: LoadingStatus.NEVER
 }
@@ -65,13 +71,22 @@ export const initialState = {
 const movieReducer = (state: State = initialState, action: MovieActions):State => {
     switch (action.type) {
         case MoviesActionTypes.SET_MOVIES:
-            return { ...state, movies: action.payload }
+            return { ...state, movies: action.payload}
+
+        case MoviesActionTypes.ADD_MOVIES:
+            return { ...state, movies: { ...state.movies,
+                    total_pages: action.payload.total_pages,
+                    total_results: action.payload.total_results,
+                    results: [...state.movies.results, ...action.payload.results] } }
 
         case MoviesActionTypes.SET_GENRES:
-            return { ...state, ...action.payload }
+            return { ...state, ...action.payload  }
 
         case MoviesActionTypes.SET_LOADING_STATE:
             return { ...state, LoadingStatus: action.payload }
+
+        case MoviesActionTypes.SET_PAGE:
+            return { ...state, movies: { ...state.movies, page: action.payload } }
 
         default: return state
     }
