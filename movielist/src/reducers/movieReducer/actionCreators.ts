@@ -4,7 +4,7 @@ import {
     MoviesActionTypes,
     SetGenresActionInterface,
     SetMoviesActionInterface,
-    SetMoviesLoadingStatusActionInterface, SetPageActionInterface
+    SetMoviesLoadingStatusActionInterface, SetPageActionInterface, ToggleFavouriteActionInterface
 } from "./actionTypes";
 import {LoadingStatus} from "../../types";
 
@@ -25,6 +25,11 @@ export const setGenres = (payload: GenreStateInterface): SetGenresActionInterfac
 
 export const setLoadingStatus = (payload: LoadingStatus): SetMoviesLoadingStatusActionInterface => ({
     type: MoviesActionTypes.SET_LOADING_STATE,
+    payload
+})
+
+export const toggleFavourite = (payload: number): ToggleFavouriteActionInterface => ({
+    type: MoviesActionTypes.TOGGLE_FAVOURITE,
     payload
 })
 

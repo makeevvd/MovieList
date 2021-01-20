@@ -1,55 +1,41 @@
-import React, {Reducer, useCallback, useEffect, useReducer, useRef, useState} from 'react';
+import React, {Reducer, useEffect, useReducer, useRef, useState} from 'react';
 import './App.css';
 import MainPage from "./components/MainPage";
 import SearchForm from "./components/SearchForm";
 import "antd/dist/antd.css";
 import movieReducer, {
-    GenreStateInterface,
     initialState,
-    MovieStateInterface,
     State
 } from "./reducers/movieReducer/movieReducer";
 import {MovieActions} from "./reducers/movieReducer/actionTypes";
 import {addMovies, setGenres, setLoadingStatus, setMovies} from "./reducers/movieReducer/actionCreators";
 import {LoadingStatus} from "./types";
 import moviesAPI from "./api/moviesAPI";
-import {useAsync} from "./hooks/useAsync";
-// import {parseSearchQuery} from "./utils/parseSearchQuery";
-
-// Реализовать фильтрацию по жанрам
-// Добавить сортировку (по популярности, по рейтингу, по новизне)
+import styled from "styled-components";
+import {Link, Route, Switch} from "react-router-dom";
+import {Movie} from "./components/Movie";
 
 export interface SearchQueryInterface {
     sort_by: string;
     with_genres: number[]
 }
 
-export const initialSearchQuery = {
-    sort_by: "",
-    with_genres: []
-}
 
-const initialize = () => {return initialSearchQuery}
+
+const initialize = () => { return initialSearchQuery }
 
 function App() {
-
-
-
     const [state, dispatch] = useReducer<Reducer<State, MovieActions>>(movieReducer, initialState);
-
-    useEffect(() => {
-       moviesAPI.getGenres().then((genres) => {
-            dispatch(setGenres(genres))
-        });
-    }, [])
-
-    // const [page, setPage] = useState(1);
     const [element, setElement] = useState(null as any);
     const [searchQuery, setSearchQuery] = useState<SearchQueryInterface>(initialize)
     const [page, setPage] = useState<number>(1)
-
-    // const pageRef: any = useRef(1);
     const prevY = useRef(0);
+
+    useEffect(() => {
+        moviesAPI.getGenres().then((genres) => {
+            dispatch(setGenres(genres))
+        });
+    }, [])
 
 
     const observer = useRef(
@@ -69,24 +55,6 @@ function App() {
         )
     );
 
-    // const memoizedCallback = useCallback(
-    //     () => {
-    //         doSomething(a, b);
-    //     },
-    //     [a, b],
-    // );
-
-    // const loadMore = useCallback(async () => {
-    //     try {
-    //         dispatch(setLoadingStatus(LoadingStatus.LOADING))
-    //         const movies = await moviesAPI.getMovies(searchQuery, page);
-    //         dispatch(addMovies(movies))
-    //         dispatch(setLoadingStatus(LoadingStatus.LOADED))
-    //     } catch (error) {
-    //         dispatch(setLoadingStatus(LoadingStatus.ERROR))
-    //     }
-    // }, [searchQuery, page])
-
     useEffect(() => {
         const loadAndSetMovies = async (searchQuery: any, page: any) => {
             try {
@@ -105,21 +73,6 @@ function App() {
         loadAndSetMovies(searchQuery, page);
     }, [searchQuery, page])
 
-
-    // useEffect(() => {
-    //     const loadAndSetMovies = async (searchQuery: any, page: any) => {
-    //         try {
-    //             dispatch(setLoadingStatus(LoadingStatus.LOADING))
-    //             const movies = await moviesAPI.getMovies(searchQuery, page);
-    //             dispatch(setMovies(movies))
-    //             dispatch(setLoadingStatus(LoadingStatus.LOADED))
-    //         } catch (error) {
-    //             dispatch(setLoadingStatus(LoadingStatus.ERROR))
-    //         }
-    //     }
-    //     loadAndSetMovies(searchQuery, 1);
-    // }, [searchQuery]);
-
     useEffect(() => {
         const currentElement = element;
         const currentObserver = observer.current;
@@ -136,15 +89,50 @@ function App() {
     }, [element]);
 
 
-  return (
-    <div className="App">
-        <SearchForm setSearchQuery={setSearchQuery} genres={state.genres} setPage={setPage}/>
-        <MainPage state={state}/>
-        <div ref={setElement} className="buttonContainer">
-            <button className="buttonStyle">Load More</button>
+    return (
+        <div className="App">
+            <AppWrapper>
+                <TitleLink to='/'>Movie Search App</TitleLink>
+                <Switch>
+                    <Route path="/" exact>
+                        <SearchForm setSearchQuery={setSearchQuery} genres={state.genres} setPage={setPage}/>
+                        <MainPage state={state} dispatch={dispatch}/>
+                        <div ref={setElement}>
+                            <button style={{margin: '0 auto'}}>Load More</button>
+                        </div>
+                    </Route>
+                    <Route path="/movie/:id">
+                        <Movie />
+                    </Route>
+                </Switch>
+            </AppWrapper>
         </div>
-    </div>
-  )
+    )
 }
+
+export const initialSearchQuery = {
+    sort_by: "",
+    with_genres: []
+}
+
+const AppWrapper = styled.div`
+    margin: 0 auto;
+    padding: 40px 120px 120px 120px;
+
+@media (max-width: 600px) {
+    padding: 10px 30px 30px 30px;
+  }
+`
+
+const TitleLink = styled(Link)`
+    font-size: 36px;
+    text-align: left;
+    margin-bottom: 40px;
+    font-weight: 700;
+    min-width: 206px;
+        @media (max-width: 600px) {
+            font-size: 24px;
+          }
+`
 
 export default App;

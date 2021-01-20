@@ -22,6 +22,7 @@ import {MovieActions, MoviesActionTypes} from "./actionTypes";
 // vote_count: 2781
 
 export interface MovieInterface {
+    isFavourite?: boolean
     adult: boolean
     backdrop_path: string
     with_genres: number[]
@@ -75,7 +76,10 @@ export const initialState = {
 const movieReducer = (state: State = initialState, action: MovieActions):State => {
     switch (action.type) {
         case MoviesActionTypes.SET_MOVIES:
-            return { ...state, movies: action.payload}
+            debugger;
+            return { ...state, movies: {...action.payload, results: action.payload.results.map((movie) => {
+                        return { ...movie, isFavourite: false }
+                    })}}
 
         case MoviesActionTypes.ADD_MOVIES:
             return { ...state, movies: { ...state.movies,
@@ -91,6 +95,13 @@ const movieReducer = (state: State = initialState, action: MovieActions):State =
 
         case MoviesActionTypes.SET_PAGE:
             return { ...state, movies: { ...state.movies, page: action.payload } }
+
+        case MoviesActionTypes.TOGGLE_FAVOURITE:
+            return { ...state, movies: { ...state.movies, results: state.movies.results.map((movie) => {
+                        return movie.id === action.payload ? {...movie, isFavourite: !movie.isFavourite} : movie
+                    })
+                }
+            }
 
         default: return state
     }
