@@ -45,6 +45,10 @@ export interface MovieStateInterface {
     total_results: number
 }
 
+export interface GenreStateInterface {
+    genres: GenreInterface[]
+}
+
 export interface GenreInterface {
     id: number
     name: string

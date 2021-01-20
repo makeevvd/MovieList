@@ -1,4 +1,4 @@
-import {GenreInterface, MovieStateInterface} from "./movieReducer";
+import {GenreInterface, GenreStateInterface, MovieStateInterface} from "./movieReducer";
 import {
     AddMoviesActionInterface,
     MoviesActionTypes,
@@ -18,7 +18,7 @@ export const addMovies = (payload: MovieStateInterface): AddMoviesActionInterfac
     payload
 })
 
-export const setGenres = (payload: GenreInterface[]): SetGenresActionInterface => ({
+export const setGenres = (payload: GenreStateInterface): SetGenresActionInterface => ({
     type: MoviesActionTypes.SET_GENRES,
     payload
 })

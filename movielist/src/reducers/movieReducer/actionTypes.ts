@@ -1,5 +1,5 @@
 import {LoadingStatus} from "../../types";
-import {GenreInterface, MovieStateInterface} from "./movieReducer";
+import {GenreInterface, GenreStateInterface, MovieStateInterface} from "./movieReducer";
 
 export enum MoviesActionTypes {
     SET_MOVIES = 'movies/SET_MOVIES',
@@ -22,7 +22,7 @@ export interface AddMoviesActionInterface {
 
 export interface SetGenresActionInterface {
     type: MoviesActionTypes.SET_GENRES
-    payload: GenreInterface[]
+    payload: GenreStateInterface
 }
 
 export interface SetMoviesLoadingStatusActionInterface {
