@@ -94,7 +94,7 @@ function App() {
             <AppWrapper>
                 <TitleLink to='/'>Movie Search App</TitleLink>
                 <Switch>
-                    <Route path="/" exact>
+                    <Route path="/">
                         <SearchForm setSearchQuery={setSearchQuery} genres={state.genres} setPage={setPage}/>
                         <MainPage state={state} dispatch={dispatch}/>
                         <div ref={setElement}>
