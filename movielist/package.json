@@ -1,6 +1,6 @@
 {
   "name": "movielist",
-  "homepage" : "https://makeevvd.github.io/MovieList/",
+  "homepage": "https://makeevvd.github.io/MovieList/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -23,6 +23,7 @@
     "react-intersection-observer": "^8.31.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "rm": "^0.1.8",
     "styled-components": "^5.2.1",
     "typescript": "^4.0.3",
     "web-vitals": "^0.2.4"
