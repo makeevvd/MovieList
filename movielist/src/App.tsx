@@ -94,16 +94,20 @@ function App() {
             <AppWrapper>
                 <TitleLink to='/'>Movie Search App</TitleLink>
                 <Switch>
-                    <Route path="/">
-                        <SearchForm setSearchQuery={setSearchQuery} genres={state.genres} setPage={setPage}/>
-                        <MainPage state={state} dispatch={dispatch}/>
-                        <div ref={setElement}>
-                            <button style={{margin: '0 auto'}}>Load More</button>
-                        </div>
-                    </Route>
-                    <Route path="/movie/:id">
+                    <Route path="/movie/:id" exact>
                         <Movie />
                     </Route>
+                    <Route render={() => (
+                        <div>
+                            <SearchForm setSearchQuery={setSearchQuery} genres={state.genres} setPage={setPage}/>
+                            <MainPage state={state} dispatch={dispatch}/>
+                            <div ref={setElement}>
+                                <button style={{margin: '0 auto'}}>Load More</button>
+                            </div>
+                        </div>
+                    )}>
+                    </Route>
+
                 </Switch>
             </AppWrapper>
         </div>
