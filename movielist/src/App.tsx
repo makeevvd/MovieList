@@ -97,15 +97,12 @@ function App() {
                     <Route path="/movie/:id" exact>
                         <Movie />
                     </Route>
-                    <Route render={() => (
-                        <div>
-                            <SearchForm setSearchQuery={setSearchQuery} genres={state.genres} setPage={setPage}/>
-                            <MainPage state={state} dispatch={dispatch}/>
-                            <div ref={setElement}>
-                                <button style={{margin: '0 auto'}}>Load More</button>
-                            </div>
+                    <Route path="/" >
+                        <SearchForm setSearchQuery={setSearchQuery} genres={state.genres} setPage={setPage}/>
+                        <MainPage state={state} dispatch={dispatch}/>
+                        <div ref={setElement}>
+                            <button style={{margin: '0 auto'}}>Load More</button>
                         </div>
-                    )}>
                     </Route>
 
                 </Switch>
