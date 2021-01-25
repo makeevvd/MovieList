@@ -38,14 +38,11 @@ const SearchForm: React.FC<SearchFormProps> = ({setSearchQuery, genres, setPage}
         setPage(1)
     }
 
-    const onFormChangeHandler = (e: any) => {
-    }
-
-        const options = genres.map((genreObject: any) => <Option key={genreObject.id} value={genreObject.id}>{genreObject.name}</Option>);
+        const options = genres.map((genreObject: GenreInterface) => <Option key={genreObject.id} value={genreObject.id}>{genreObject.name}</Option>);
 
     return (
         <SearchFormContainer>
-            <FormContainer onChange={onFormChangeHandler}>
+            <FormContainer>
                 <Form.Item
                     name="sortBy"
                 >
