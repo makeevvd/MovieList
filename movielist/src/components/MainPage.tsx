@@ -26,7 +26,7 @@ const MainPage: React.FC<MainPageProps> = ({ state, dispatch }) => {
                         <MovieLink to={`movie/${movie.id}`}>{movie.title}</MovieLink>
                         <div>Rating: {movie.vote_average}</div>
                     </InfoColumn>
-                    <StarContainer><Star onClick={() => dispatch(toggleFavourite(movie.id))} isfavourite={movie.isFavourite}/></StarContainer>
+                    <StarContainer><Star onClick={() => dispatch(toggleFavourite(movie.id))} $isfavourite={movie.isFavourite}/></StarContainer>
                 </MovieInfo>
             </MovieCard>
         )
@@ -40,7 +40,7 @@ interface MainPageProps {
 }
 
 interface StarInterface {
-    isfavourite?: boolean
+    $isfavourite?: boolean
 }
 
 const MovieLink = styled(Link)`
@@ -58,7 +58,7 @@ color: darkred;
 `
 
 const Star = styled(StarFilled)<StarInterface>`
-  color: ${(props) => props.isfavourite ? 'gold' : 'grey'};
+  color: ${(props) => props.$isfavourite ? 'gold' : 'grey'};
   font-size: 32px;
   
   &:hover {

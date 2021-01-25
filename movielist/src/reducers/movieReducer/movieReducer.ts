@@ -76,7 +76,6 @@ export const initialState = {
 const movieReducer = (state: State = initialState, action: MovieActions):State => {
     switch (action.type) {
         case MoviesActionTypes.SET_MOVIES:
-            debugger;
             return { ...state, movies: {...action.payload, results: action.payload.results.map((movie) => {
                         return { ...movie, isFavourite: false }
                     })}}
