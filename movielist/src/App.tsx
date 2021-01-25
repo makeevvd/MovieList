@@ -46,7 +46,6 @@ function App() {
 
                 if (prevY.current > y) {
                     setPage((page) => page + 1)
-                    // setTimeout(loadMore, 1000); // 1 sec delay
                 }
 
                 prevY.current = y;
@@ -56,7 +55,7 @@ function App() {
     );
 
     useEffect(() => {
-        const loadAndSetMovies = async (searchQuery: any, page: any) => {
+        const loadAndSetMovies = async (searchQuery: SearchQueryInterface, page: number) => {
             try {
                 dispatch(setLoadingStatus(LoadingStatus.LOADING))
                 const movies = await moviesAPI.getMovies(searchQuery, page);
